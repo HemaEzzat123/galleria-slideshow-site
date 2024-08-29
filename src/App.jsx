@@ -10,7 +10,11 @@ function App() {
     <>
       {/* <Header />
       <Card /> */}
-      <Innerpage />
+      <Innerpage /> 
+       <div className="flex">
+      <hr className="mt-[250px]  w-28 border border-black" />
+      <hr className="mt-[250px] w-full "/>
+      </div>
     </>
   );
 }

@@ -18,7 +18,7 @@ const Card = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 hm w-full sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-8">
+    <div className="grid grid-cols-1 hm m-auto w-[88vw] sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-8">
       {data.length > 0 ? (
         data.map((item, index) => (
           <div

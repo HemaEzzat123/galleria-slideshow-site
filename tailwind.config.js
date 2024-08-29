@@ -2,7 +2,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ["Libre Baskerville", "serif"],
+      },
+      fontSize: {
+        "10xl": "10rem", // Custom font size
+        "11xl": "12rem", // You can add more sizes as needed
+      },
+    },
   },
   plugins: [],
 };
