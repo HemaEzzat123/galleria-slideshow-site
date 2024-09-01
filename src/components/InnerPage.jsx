@@ -1,26 +1,55 @@
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import getData from "./api/Data";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import open from "../../public/assets/shared/icon-view-image.svg";
 export default function Innerpage() {
   const [data, setData] = useState([]);
+  const { id } = useParams(); // الحصول على المعرف من الرابط
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function getData() {
-      const response = await axios.get("http://localhost:5000/data");
-      setData(response.data);
-    }
-    getData();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const dataFromApi = await getData();
+        const item = dataFromApi.find((item) => item.id === id); // البحث عن العنصر بناءً على المعرف
+        setData(item);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
 
-  const name = data.length > 0 ? data[0].name : "";
-  const artName = data.length > 0 ? data[0].artist.name : "";
-  const artPhoto = data.length > 0 ? data[0].artist.image : "";
-  const photo = data.length > 0 ? data[0].images.hero.large : "";
-  const description = data.length > 0 ? data[0].description : "";
-  const year = data.length > 0 ? data[0].year : "";
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <p>Loading data...</p>
+        <Footer />
+      </>
+    );
+  }
 
+  if (!data) {
+    return (
+      <>
+        <Header />
+        <p>Item not found.</p>
+        <Footer />
+      </>
+    );
+  }
+
+  const name = data.name;
+  const artName = data.artist.name;
+  const artPhoto = data.artist.image;
+  const photo = data.images.hero.large;
+  const description = data.description;
+  const year = data.year;
   return (
     <>
       <Header />
@@ -34,7 +63,7 @@ export default function Innerpage() {
           </div>
 
           <div className="w-96 md:w-80 bg-white  md:p-10 relative  bottom-6  text-center md:bottom-[680px] md:left-[450px]">
-            <div className="text-4xl md:text-6xl font-bold">{name}</div>
+            <div className="text-2xl md:text-5xl font-bold">{name}</div>
             <br />
             <div className="text-md opacity-55">{artName}</div>
           </div>
@@ -53,8 +82,13 @@ export default function Innerpage() {
             <br />
             <br />
             <a
-              href="https://en.wikipedia.org/wiki/The_Starry_Night"
-              className="text-sm underline font-custom decoration-solid"
+              href={`https://en.wikipedia.org/wiki/${name.replace(
+                /\s+/g,
+                "_"
+              )}`} // استبدال الفراغات بـ "_"
+              className="underline"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Go To Source
             </a>
