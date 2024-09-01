@@ -1,5 +1,5 @@
 import logo from "../../../starter-code/assets/shared/logo.svg";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function Header() {
   const { id } = useParams(); // Get the ID from the URL
@@ -17,7 +17,9 @@ function Header() {
   return (
     <>
       <div className="flex justify-between items-center	mt-8 w-[88vw] m-auto  ">
-        <img src={logo} alt="logo" />
+        <Link to={`/home`}>
+          <img src={logo} alt="logo" />
+        </Link>
         <p className="tracking-wider">{slideShow()}</p>
       </div>
       <br />
