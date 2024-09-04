@@ -1,0 +1,55 @@
+// Image modal popup
+const modal = document.createElement("div");
+modal.classList.add("modal");
+document.body.appendChild(modal);
+
+const images = document.querySelectorAll(
+  ".pop img"
+);
+
+images.forEach((image) => {
+  image.addEventListener("click", () => {
+    modal.classList.add("open");
+    const img = document.createElement("img");
+    img.src = image.src;
+    while (modal.firstChild) {
+      modal.removeChild(modal.firstChild);
+    }
+    modal.appendChild(img);
+  });
+});
+
+modal.addEventListener("click", () => {
+  modal.classList.remove("open");
+});
+
+
+
+/* Image modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}

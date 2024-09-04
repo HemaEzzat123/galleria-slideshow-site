@@ -8,6 +8,17 @@ export default function Innerpage() {
   const [data, setData] = useState([]);
   const { id } = useParams(); // الحصول على المعرف من الرابط
   const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const openModal = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedImage(null);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,12 +64,19 @@ export default function Innerpage() {
   return (
     <>
       <Header />
-      <div className="font-custom h-[600px] w-[88vw] m-auto flex items-center justify-around gap-[800px] ">
+      <div className="pop font-custom h-[600px] w-[88vw] m-auto flex items-center justify-around gap-[800px] ">
         <div className="w-full  md:w-96 md:h-96 md:mt-24 md:mb-16 ">
           <div className="w-[700px] ">
-            <img className="md:w-[550px]  w-3/4 " src={photo} />
-            <div className="bg-black h-7 gap-5 opacity-65 font-custom  text-white w-32 text-[10px] p-2 relative bottom-7 md:bottom-10 md:left-6 cursor-pointer hover:opacity-40 flex">
-              <img className="w-3" src={open} /> VIEW IMAGE
+            <img
+              className="md:w-[550px]  w-3/4 "
+              src={photo}
+              onClick={() => openModal(photo)}
+            />
+            <div
+              onClick={() => openModal(photo)}
+              className="bg-black h-7 gap-5 opacity-65 font-custom  text-white w-32 text-[10px] p-2 relative bottom-7 md:bottom-10 md:left-6 cursor-pointer hover:opacity-40 flex"
+            >
+              <img className="w-3 " src={open} /> VIEW IMAGE
             </div>
           </div>
 
@@ -71,6 +89,7 @@ export default function Innerpage() {
           <img
             src={artPhoto}
             className="relative md:bottom-[340px] md:left-[580px]"
+            onClick={() => openModal(artPhoto)}
           />
         </div>
         <div className="w-[700px]  relative text-start opacity-65   ">
@@ -102,6 +121,12 @@ export default function Innerpage() {
           </div>
         </div>
       </div>
+
+      {isOpen && (
+        <div className="modal open" onClick={closeModal}>
+          <img src={selectedImage} alt="Modal" />
+        </div>
+      )}
 
       <Footer />
     </>
